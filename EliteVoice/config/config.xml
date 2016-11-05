@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration>
+  <Event name="FSDJump">
+    <TextToSpeech voice="Anna" volume="50" pitch="10">
+      <Text>Прыжок совершен.</Text>
+      <Pause value="500"/>
+      <Text>Система: </Text>
+      <Text select="StarSystem"/>
+    </TextToSpeech>    
+  </Event>
+  <Event name="SupercruiseEntry">
+    <TextToSpeech voice="Anna" volume="50" pitch="10">
+      <Text>Входим в суперкруиз.</Text>
+    </TextToSpeech>
+  </Event>
+  <Event name="ReceiveText">
+    <TextToSpeech voice="Anna" volume="50" pitch="10">
+      <Text>Новое сообщение от</Text>
+      <Pause value="100"/>
+      <Text select="From_Localised"/>
+      <Pause value="500"/>
+      <Text select="Message_Localised"/>
+    </TextToSpeech>
+  </Event>
+  <!--
+  <Event name="ReceiveTextS">
+    <Switch parameter="From">
+      <Case match=""></Case>
+      <Default>
+        <TextToSpeech voice="Anna" volume="100" pitch="0">
+          <Text select="From_Localised"/>
+          <Pause value="500"/>
+          <Text select="Message_Localised"/>
+        </TextToSpeech>
+      </Default>
+    </Switch>
+  </Event>
+  -->
+</Configuration>
