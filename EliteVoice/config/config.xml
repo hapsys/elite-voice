@@ -1,17 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Configuration>
+  <Event name="LoadGame">
+    <TextToSpeech voice="Anna" volume="50" pitch="10">
+      <Text>Добро пожаловать на борт! Командэр!</Text>
+    </TextToSpeech>
+  </Event>
   <Event name="FSDJump">
     <TextToSpeech voice="Anna" volume="50" pitch="10">
-      <Text>Прыжок совершен.</Text>
+      <Text>Прыжок совершон.</Text>
       <Pause value="500"/>
       <Text>Система: </Text>
       <Text select="StarSystem"/>
-    </TextToSpeech>    
+    </TextToSpeech>
   </Event>
   <Event name="SupercruiseEntry">
     <TextToSpeech voice="Anna" volume="50" pitch="10">
       <Text>Входим в суперкруиз.</Text>
     </TextToSpeech>
+    <Play file="sound\dveri zakrivayutsya.wav" volume="20"/>
+  </Event>
+  <Event name="SupercruiseExit">
+    <Play file="sound\dveri zakrivayutsya 2.wav" volume="20"/>
   </Event>
   <Event name="ReceiveText">
     <TextToSpeech voice="Anna" volume="50" pitch="10">

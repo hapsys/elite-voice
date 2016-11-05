@@ -119,6 +119,7 @@
     <Compile Include="ConfigReader\AbstractCommand.cs" />
     <Compile Include="ConfigReader\Commands\EventsCommand.cs" />
     <Compile Include="ConfigReader\Commands\PauseCommand.cs" />
+    <Compile Include="ConfigReader\Commands\PlaySoundCommand.cs" />
     <Compile Include="ConfigReader\Commands\TextCommand.cs" />
     <Compile Include="ConfigReader\Commands\TextToSpeechCommand.cs" />
     <Compile Include="ConfigReader\ConfigReader.cs" />
@@ -188,6 +189,15 @@
       <Guid>{C866CA3A-32F7-11D2-9602-00C04F8EE628}</Guid>
       <VersionMajor>5</VersionMajor>
       <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
