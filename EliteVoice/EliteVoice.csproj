@@ -117,9 +117,11 @@
     </ApplicationDefinition>
     <Compile Include="CommandProcessor.cs" />
     <Compile Include="ConfigReader\AbstractCommand.cs" />
+    <Compile Include="ConfigReader\Commands\BlockCommand.cs" />
     <Compile Include="ConfigReader\Commands\EventsCommand.cs" />
     <Compile Include="ConfigReader\Commands\PauseCommand.cs" />
     <Compile Include="ConfigReader\Commands\PlaySoundCommand.cs" />
+    <Compile Include="ConfigReader\Commands\RandomizeCommand.cs" />
     <Compile Include="ConfigReader\Commands\TextCommand.cs" />
     <Compile Include="ConfigReader\Commands\TextToSpeechCommand.cs" />
     <Compile Include="ConfigReader\ConfigReader.cs" />
@@ -207,6 +209,7 @@
   <ItemGroup>
     <EmbeddedResource Include="config\config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

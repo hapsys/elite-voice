@@ -1,9 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Configuration>
   <Event name="LoadGame">
-    <TextToSpeech voice="Anna" volume="50" pitch="10">
-      <Text>Добро пожаловать на борт! Командэр!</Text>
-    </TextToSpeech>
+    <Randomize>
+      <Block priority="1">
+        <TextToSpeech voice="Anna" volume="50" pitch="10"/>
+      </Block>
+      <Block priority="2">
+        <TextToSpeech voice="Irina" volume="50" pitch="10"/>
+      </Block>
+      <Block priority="3">
+        <TextToSpeech voice="Elena" volume="50" pitch="10"/>
+      </Block>
+      <Block priority="4">
+        <TextToSpeech voice="Aleksandr" volume="50" pitch="10"/>
+      </Block>
+    </Randomize>
+    <Text>Добро пожаловать на борт! Командэр!</Text>
   </Event>
   <Event name="FSDJump">
     <TextToSpeech voice="Anna" volume="50" pitch="10">
@@ -28,21 +40,18 @@
       <Pause value="100"/>
       <Text select="From_Localised"/>
       <Pause value="500"/>
+      <Randomize>
+        <Block priority="1">
+          <TextToSpeech voice="Irina" volume="50" pitch="10"/>
+        </Block>
+        <Block priority="1">
+          <TextToSpeech voice="Elena" volume="50" pitch="10"/>
+        </Block>
+        <Block priority="1">
+          <TextToSpeech voice="Aleksandr" volume="50" pitch="10"/>
+        </Block>
+      </Randomize>
       <Text select="Message_Localised"/>
     </TextToSpeech>
   </Event>
-  <!--
-  <Event name="ReceiveTextS">
-    <Switch parameter="From">
-      <Case match=""></Case>
-      <Default>
-        <TextToSpeech voice="Anna" volume="100" pitch="0">
-          <Text select="From_Localised"/>
-          <Pause value="500"/>
-          <Text select="Message_Localised"/>
-        </TextToSpeech>
-      </Default>
-    </Switch>
-  </Event>
-  -->
 </Configuration>

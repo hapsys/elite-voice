@@ -23,8 +23,12 @@ namespace EliteVoice.ConfigReader.Commands
             if (getProperties().ContainsKey("volume"))
             {
                 volume = Int32.Parse((string)getProperties()["volume"]);
+                if (volume < 0 || volume > 100)
+                {
+                    volume = -1;
+                }
             }
-                if (getProperties().ContainsKey("file"))
+            if (getProperties().ContainsKey("file"))
             {
                 string filename = (string)getProperties()["file"];
                 logger.log("Try to play file: \"" + filename + "\"");
@@ -32,6 +36,7 @@ namespace EliteVoice.ConfigReader.Commands
                 {
                     isOpen = true;
                     wplayer = new WMPLib.WindowsMediaPlayer();
+                    int lastVolume = wplayer.settings.volume;
                     wplayer.PlayStateChange += Player_PlayStateChange;
                     wplayer.URL = filename;
                     if (volume > -1)
@@ -44,7 +49,8 @@ namespace EliteVoice.ConfigReader.Commands
                     {
                         Thread.Sleep(500);
                     }
-
+                    //wplayer.settings.volume = lastVolume;
+                    wplayer.settings.volume = 100;
                 }
                 else
                 {

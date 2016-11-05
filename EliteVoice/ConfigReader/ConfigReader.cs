@@ -22,6 +22,8 @@ namespace EliteVoice.ConfigReader
             registration.Add("Text", Type.GetType("EliteVoice.ConfigReader.Commands.TextCommand"));
             registration.Add("Pause", Type.GetType("EliteVoice.ConfigReader.Commands.PauseCommand"));
             registration.Add("Play", Type.GetType("EliteVoice.ConfigReader.Commands.PlaySoundCommand"));
+            registration.Add("Randomize", Type.GetType("EliteVoice.ConfigReader.Commands.RandomizeCommand"));
+            registration.Add("Block", Type.GetType("EliteVoice.ConfigReader.Commands.BlockCommand"));
 
             this.config = config;
         }
