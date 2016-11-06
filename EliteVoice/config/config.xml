@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Configuration>
   <Event name="LoadGame">
+    <Play file="sound\08207.mp3" volume="40" async="true"/>
     <Randomize>
       <Block priority="1">
         <TextToSpeech voice="Anna" volume="50" pitch="10"/>
@@ -15,7 +16,30 @@
         <TextToSpeech voice="Aleksandr" volume="50" pitch="10"/>
       </Block>
     </Randomize>
-    <Text>Добро пожаловать на борт! Командэр!</Text>
+    <Text>Добро пожаловать на борт, капитан!</Text>
+
+  </Event>
+  <Event name="Location">
+    <Text>Если Вы по какой-то причине не помните, где находитесь, то предлагаю Вам прослушать краткую сводку.</Text>
+    <Pause value="500"/>
+    <Switch select="Docked">
+      <Case iequal="true">
+        <Text>Вы находитесь на станции</Text>
+        <Text select="StationName"/>
+        <Text>тип</Text>
+        <Text select="StationType"/>
+        <Text>в системе</Text>
+        <Text select="StarSystem"/>
+      </Case>
+      <Default>
+        <Text>Вы находитесь в какихто гребенях</Text>
+        <Pause value="100"/>
+        <Text>в системе</Text>
+        <Text select="StarSystem"/>
+      </Default>
+    </Switch>
+  <Pause value="500"/>
+  <Text>Удачи, капитан</Text>
   </Event>
   <Event name="FSDJump">
     <TextToSpeech voice="Anna" volume="50" pitch="10">
@@ -32,13 +56,19 @@
     <Play file="sound\dveri zakrivayutsya.wav" volume="20"/>
   </Event>
   <Event name="SupercruiseExit">
-    <Play file="sound\dveri zakrivayutsya 2.wav" volume="20"/>
+    <Play file="sound\dveri zakrivayutsya 2.wav" volume="20" async="true"/>
   </Event>
   <Event name="ReceiveText">
     <TextToSpeech voice="Anna" volume="50" pitch="10">
       <Text>Новое сообщение от</Text>
-      <Pause value="100"/>
-      <Text select="From_Localised"/>
+      <Switch select="From_Localised">
+        <Case equal="">
+          <Text select="From"/>
+        </Case>
+        <Default>
+          <Text select="From_Localised"/>
+        </Default>
+      </Switch>
       <Pause value="500"/>
       <Randomize>
         <Block priority="1">

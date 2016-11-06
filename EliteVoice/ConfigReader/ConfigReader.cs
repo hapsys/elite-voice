@@ -21,11 +21,15 @@ namespace EliteVoice.ConfigReader
             registration.Add("TextToSpeech", Type.GetType("EliteVoice.ConfigReader.Commands.TextToSpeechCommand"));
             registration.Add("Text", Type.GetType("EliteVoice.ConfigReader.Commands.TextCommand"));
             registration.Add("Pause", Type.GetType("EliteVoice.ConfigReader.Commands.PauseCommand"));
-            registration.Add("Play", Type.GetType("EliteVoice.ConfigReader.Commands.PlaySoundCommand"));
+            //registration.Add("Play", Type.GetType("EliteVoice.ConfigReader.Commands.PlaySoundCommand"));
+            registration.Add("Play", Type.GetType("EliteVoice.ConfigReader.Commands.PlayCommand"));
             registration.Add("Randomize", Type.GetType("EliteVoice.ConfigReader.Commands.RandomizeCommand"));
             registration.Add("Block", Type.GetType("EliteVoice.ConfigReader.Commands.BlockCommand"));
 
-            this.config = config;
+			registration.Add("Switch", Type.GetType("EliteVoice.ConfigReader.Commands.SwitchCommand"));
+			registration.Add("Case", Type.GetType("EliteVoice.ConfigReader.Commands.CaseCommand"));
+			registration.Add("Default", Type.GetType("EliteVoice.ConfigReader.Commands.BlockCommand"));
+			this.config = config;
         }
 
         public ICommand getEvent(string eventName)
@@ -82,7 +86,7 @@ namespace EliteVoice.ConfigReader
                         {
                             ICommand command = (ICommand)Activator.CreateInstance(registration[cmdName]);
                             readContent((XmlElement)current.ChildNodes[i], command);
-                            parent.addChild(command);
+							parent.addChild(command);
                         }
                     }
                 }

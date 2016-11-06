@@ -10,8 +10,7 @@
         <ComboBox x:Name="audioDevices" VerticalAlignment="Top" IsReadOnly="True" Margin="10,23,10,0" SelectionChanged="audioDevices_SelectionChanged"/>
         <DataGrid x:Name="fileGrid" Margin="10,60,10,0" VerticalAlignment="Top" Height="100" HeadersVisibility="None" DataContextChanged="fileGrid_DataContextChanged"/>
         <Label x:Name="label" Content="Устройство по умолчанию:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="logTextBox" Height="140" Margin="10,170,10,0" VerticalAlignment="Top" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" TextChanged="logTextBox_TextChanged">
-        </TextBox>
+        <TextBox x:Name="logTextBox" Margin="10,170,10,0" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" TextChanged="logTextBox_TextChanged"/>
 
     </Grid>
 </Window>

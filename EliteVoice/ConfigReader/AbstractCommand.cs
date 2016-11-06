@@ -8,7 +8,7 @@ namespace EliteVoice.ConfigReader
 {
     abstract class AbstractCommand : ICommand
     {
-        ICommand parent { set; get; } = null;
+        public ICommand parent { protected set; get; } = null;
         LinkedList<ICommand> commands = new LinkedList<ICommand>();
         IDictionary<string, string> properties = new Dictionary<string,string>();
 
@@ -19,10 +19,11 @@ namespace EliteVoice.ConfigReader
         }
         public void addChild(ICommand command)
         {
-            commands.AddLast(command);
+			((AbstractCommand)command).parent = this;
+			commands.AddLast(command);
         }
 
-        public void addProperty(string key, string value)
+        public virtual void addProperty(string key, string value)
         {
             properties.Add(key, value);
         }

@@ -90,6 +90,12 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NAudio">
+      <HintPath>F:\freelance\elite-dangerous\NAudio-Release\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.WindowsMediaFormat">
+      <HintPath>F:\freelance\elite-dangerous\NAudio-Release\NAudio.WindowsMediaFormat.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>F:\freelance\elite-dangerous\json.net\Bin\Net35\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -118,10 +124,13 @@
     <Compile Include="CommandProcessor.cs" />
     <Compile Include="ConfigReader\AbstractCommand.cs" />
     <Compile Include="ConfigReader\Commands\BlockCommand.cs" />
+    <Compile Include="ConfigReader\Commands\CaseCommand.cs" />
     <Compile Include="ConfigReader\Commands\EventsCommand.cs" />
     <Compile Include="ConfigReader\Commands\PauseCommand.cs" />
+    <Compile Include="ConfigReader\Commands\PlayCommand.cs" />
     <Compile Include="ConfigReader\Commands\PlaySoundCommand.cs" />
     <Compile Include="ConfigReader\Commands\RandomizeCommand.cs" />
+    <Compile Include="ConfigReader\Commands\SwitchCommand.cs" />
     <Compile Include="ConfigReader\Commands\TextCommand.cs" />
     <Compile Include="ConfigReader\Commands\TextToSpeechCommand.cs" />
     <Compile Include="ConfigReader\ConfigReader.cs" />
