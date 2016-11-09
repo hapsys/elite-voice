@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EliteVoice"
         mc:Ignorable="d"
-        Title="E:D обработчик событий" Height="350" Width="525" Closing="Window_Closing">
+        Title="ED scoring events" Height="350" Width="525" Closing="Window_Closing">
     <Grid>
         <ComboBox x:Name="audioDevices" VerticalAlignment="Top" IsReadOnly="True" Margin="10,23,10,0" SelectionChanged="audioDevices_SelectionChanged"/>
         <DataGrid x:Name="fileGrid" Margin="10,60,10,0" VerticalAlignment="Top" Height="100" HeadersVisibility="None" DataContextChanged="fileGrid_DataContextChanged"/>

@@ -1,87 +1,119 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Configuration>
-  <Event name="LoadGame">
-    <Play file="sound\08207.mp3" volume="40" async="true"/>
-    <Randomize>
-      <Block priority="1">
-        <TextToSpeech voice="Anna" volume="50" pitch="10"/>
-      </Block>
-      <Block priority="2">
-        <TextToSpeech voice="Irina" volume="50" pitch="10"/>
-      </Block>
-      <Block priority="3">
-        <TextToSpeech voice="Elena" volume="50" pitch="10"/>
-      </Block>
-      <Block priority="4">
-        <TextToSpeech voice="Aleksandr" volume="50" pitch="10"/>
-      </Block>
-    </Randomize>
-    <Text>Добро пожаловать на борт, капитан!</Text>
-
-  </Event>
-  <Event name="Location">
+  <!-- Секция инициализации -->
+  <Init>
+    <Replace source="StarSystem" match="Euryale" replace="Эври_ала"/>
+    <Replace match="в порту" replace="в порт_у"/>
+    <Replace match="стороны" replace="сторон_ы"/>
+    <TextToSpeech voice="Anna" volume="50" rate="0"/>
+  </Init>
+  <!-- Загрузка игры открытая/соло/ЧГ -->
+	<Event name="LoadGame">
+		<Play name="first" file="sound\08207.mp3" volume="40" async="true"/>
+		<Randomize>
+			<Block priority="1">
+				<TextToSpeech voice="Anna"/>
+			</Block>
+			<Block priority="2">
+				<TextToSpeech voice="Irina"/>
+			</Block>
+			<Block priority="3">
+				<TextToSpeech voice="Elena"/>
+			</Block>
+			<Block priority="4">
+				<TextToSpeech voice="Aleksandr"/>
+			</Block>
+		</Randomize>
+		<Text>Добро пожаловать на борт, капитан!</Text>
+	</Event>
+  <!-- Информация о текущем положении после загрузки игры -->
+	<Event name="Location">
     <Text>Если Вы по какой-то причине не помните, где находитесь, то предлагаю Вам прослушать краткую сводку.</Text>
-    <Pause value="500"/>
+		<Pause value="500"/>
     <Switch select="Docked">
-      <Case iequal="true">
-        <Text>Вы находитесь на станции</Text>
-        <Text select="StationName"/>
-        <Text>тип</Text>
-        <Text select="StationType"/>
-        <Text>в системе</Text>
-        <Text select="StarSystem"/>
-      </Case>
-      <Default>
-        <Text>Вы находитесь в какихто гребенях</Text>
-        <Pause value="100"/>
-        <Text>в системе</Text>
-        <Text select="StarSystem"/>
-      </Default>
-    </Switch>
-  <Pause value="500"/>
-  <Text>Удачи, капитан</Text>
+			<Case iequal="true">
+				<Text>Вы находитесь на станции</Text>
+				<Text select="StationName"/>
+				<Text>тип</Text>
+				<Text select="StationType"/>
+				<Text>в системе</Text>
+				<Text select="StarSystem"/>
+			</Case>
+			<Default>
+				<Text>Вы находитесь в какихто гребен_ях</Text>
+				<Pause value="100"/>
+				<Text>в системе</Text>
+				<Text select="StarSystem"/>
+			</Default>
+		</Switch>
+		<Pause value="500"/>
+    <Stop name="first" fade="3000"/>
+    <Text>Удачи, капитан</Text>
+    <TextToSpeech voice="Anna" volume="50" rate="0"/>
   </Event>
-  <Event name="FSDJump">
-    <TextToSpeech voice="Anna" volume="50" pitch="10">
-      <Text>Прыжок совершон.</Text>
-      <Pause value="500"/>
-      <Text>Система: </Text>
-      <Text select="StarSystem"/>
-    </TextToSpeech>
-  </Event>
-  <Event name="SupercruiseEntry">
-    <TextToSpeech voice="Anna" volume="50" pitch="10">
-      <Text>Входим в суперкруиз.</Text>
-    </TextToSpeech>
-    <Play file="sound\dveri zakrivayutsya.wav" volume="20"/>
-  </Event>
-  <Event name="SupercruiseExit">
-    <Play file="sound\dveri zakrivayutsya 2.wav" volume="20" async="true"/>
-  </Event>
-  <Event name="ReceiveText">
-    <TextToSpeech voice="Anna" volume="50" pitch="10">
-      <Text>Новое сообщение от</Text>
-      <Switch select="From_Localised">
-        <Case equal="">
-          <Text select="From"/>
-        </Case>
-        <Default>
-          <Text select="From_Localised"/>
-        </Default>
-      </Switch>
-      <Pause value="500"/>
-      <Randomize>
-        <Block priority="1">
-          <TextToSpeech voice="Irina" volume="50" pitch="10"/>
-        </Block>
-        <Block priority="1">
-          <TextToSpeech voice="Elena" volume="50" pitch="10"/>
-        </Block>
-        <Block priority="1">
-          <TextToSpeech voice="Aleksandr" volume="50" pitch="10"/>
-        </Block>
-      </Randomize>
-      <Text select="Message_Localised"/>
-    </TextToSpeech>
-  </Event>
+  <!-- Завершение гиперпрыжка -->
+	<Event name="FSDJump">
+		<TextToSpeech>
+			<Text>Прыжок совершон.</Text>
+			<Pause value="500"/>
+			<Text>Система: </Text>
+			<Text select="StarSystem"/>
+		</TextToSpeech>
+	</Event>
+  <!-- Завершение перехвата игрока npc/игроком -->
+	<Event name="Interdicted">
+		<TextToSpeech>
+			<Text>Внимание! Какой муд_ак нас пытается перехватить.</Text>
+		</TextToSpeech>
+	</Event>
+  <!-- После входа в суперкруиз -->
+	<Event name="SupercruiseEntry">
+		<TextToSpeech>
+			<Text>Входим в суперкруиз.</Text>
+		</TextToSpeech>
+		<Play file="sound\dveri zakrivayutsya.wav" volume="20"/>
+	</Event>
+  <!-- После выхода из суперкруиза -->
+	<Event name="SupercruiseExit">
+		<Play file="sound\dveri zakrivayutsya 2.wav" volume="20" async="true"/>
+	</Event>
+   <!-- Получение текстового сообщения -->
+	<Event name="ReceiveText">
+		<TextToSpeech>
+			<Text>Новое сообщение от</Text>
+			<Switch select="From_Localised">
+				<Case equal="">
+					<Text select="From"/>
+				</Case>
+				<Default>
+					<Text select="From_Localised"/>
+				</Default>
+			</Switch>
+			<Pause value="500"/>
+			<Randomize>
+				<Block priority="1">
+					<TextToSpeech voice="Irina"/>
+				</Block>
+				<Block priority="1">
+					<TextToSpeech voice="Elena"/>
+				</Block>
+				<Block priority="1">
+					<TextToSpeech voice="Anna"/>
+				</Block>
+				<Block priority="1">
+					<TextToSpeech voice="Aleksandr"/>
+				</Block>
+			</Randomize>
+			<Switch select="Channel">
+				<Case imatch="(player|wing)">
+					<TextToSpeech voice="Aleksandr">
+					  <Text select="Message"/>
+          </TextToSpeech>
+				</Case>
+				<Default>
+					<Text select="Message_Localised"/>
+				</Default>
+			</Switch>
+		</TextToSpeech>
+	</Event>
 </Configuration>

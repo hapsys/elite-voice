@@ -20,19 +20,34 @@ namespace EliteVoice
         public CommandProcessor(EliteVoice.ConfigReader.ConfigReader config)
         {
             this.config = config;
+			init();
         }
 
+		public void init()
+		{
+			config.init.runCommand(new Dictionary<string, Object>());
+		}
         public void process(string jsonStr)
         {
-            logger.log("Recieve json: " + jsonStr);
+            logger.log("Receive json: " + jsonStr);
             IDictionary<string, Object> values = JsonConvert.DeserializeObject<Dictionary<string, Object>>(jsonStr);
             if (values.ContainsKey("event")) {
                 string eventName = (string)values["event"];
                 ICommand command = config.getEvent(eventName);
                 if (command != null)
                 {
-                    logger.log("Command succesfully found for event: " + eventName);
-                    command.runCommand(values);
+					
+					logger.log("Command successfully found for event: " + eventName);
+					try {
+						foreach (Replacer rp in EventContext.instance.replacers)
+						{
+							rp.Replace(values);
+						}
+					} catch (Exception e)
+					{
+						logger.log("Replace error result: " + e.Message);
+					}
+					command.runCommand(values);
                 } else
                 {
                     logger.log("No command found for event: " + eventName);

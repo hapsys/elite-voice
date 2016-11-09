@@ -12,24 +12,34 @@ namespace EliteVoice.ConfigReader.Commands
 {
     class PlayCommand : AbstractCommand
     {
-        IWavePlayer waveOutDevice = new WaveOut();
+		public string name { get; private set; } = null;
+		IWavePlayer waveOutDevice = new WaveOut();
         AudioFileReader audioFileReader = null;
         bool async = false;
-        bool isOpen = false;
+        public bool isOpen { get; private set; } = false;
+
+		public int fadeMills { set; private get; } = 0;
 
         float volume = 0.5f;
 
         private void initializeParameters()
         {
-            if (getProperties().ContainsKey("async"))
+
+			if (getProperties().ContainsKey("name"))
+			{
+				name = getProperties()["name"];
+			}
+
+
+			if (getProperties().ContainsKey("async"))
             {
-                async = "true".Equals((string)getProperties()["async"]);
+                async = "true".Equals(getProperties()["async"]);
             }
 
             int volume = -1;
             if (getProperties().ContainsKey("volume"))
             {
-                volume = Int32.Parse((string)getProperties()["volume"]);
+                volume = Int32.Parse(getProperties()["volume"]);
                 if (volume < 0 || volume > 100)
                 {
                     volume = -1;
@@ -37,7 +47,7 @@ namespace EliteVoice.ConfigReader.Commands
             }
             if (getProperties().ContainsKey("file"))
             {
-                string filename = (string)getProperties()["file"];
+                string filename = getProperties()["file"];
                 logger.log("Try to play file: \"" + filename + "\"");
                 if (File.Exists(filename))
                 {
@@ -52,9 +62,11 @@ namespace EliteVoice.ConfigReader.Commands
                 }
                 else
                 {
-                    logger.log("File NOT Foud: \"" + filename + "\"!");
+                    logger.log("File NOT Found: \"" + filename + "\"!");
                 }
             }
+
+			EventContext.instance.addPlayer(this);
 
         }
 
@@ -84,12 +96,37 @@ namespace EliteVoice.ConfigReader.Commands
 				while (!async && isOpen)
 				{
 					Thread.Sleep(500);
-					//logger.log("Continute Playing");
+					//logger.log("Continue Playing");
 				}
-				isOpen = false;
+				//isOpen = false;
 			}
 			return 0;
 
         }
+
+		public void fade()
+		{
+
+			//logger.log("Open state " + isOpen);
+
+			if (isOpen)
+			{
+				float oldVolume = audioFileReader.Volume;
+				if (fadeMills > 0)
+				{
+					int steps = 10;
+					float volStep = oldVolume / steps;
+					int sleep = 1 + fadeMills / steps;
+					for (int i = 0; i < steps; i++)
+					{
+						audioFileReader.Volume -= volStep;
+						Thread.Sleep(sleep);
+					}
+				}
+				waveOutDevice.Stop();
+				isOpen = false;
+				audioFileReader.Volume = oldVolume;
+			}
+		}
     }
 }

@@ -12,8 +12,9 @@ namespace EliteVoice.ConfigReader
     {
         private IDictionary<string, Type> registration = new Dictionary<string, Type>();
         public IDictionary<string, EventsCommand> events { get; } = new Dictionary<string, EventsCommand>();
+		public InitCommand init { get; } = new InitCommand();
 
-        TextLogger logger = TextLogger.instance;
+		TextLogger logger = TextLogger.instance;
 
         private string config;
         public ConfigReader(string config)
@@ -23,12 +24,16 @@ namespace EliteVoice.ConfigReader
             registration.Add("Pause", Type.GetType("EliteVoice.ConfigReader.Commands.PauseCommand"));
             //registration.Add("Play", Type.GetType("EliteVoice.ConfigReader.Commands.PlaySoundCommand"));
             registration.Add("Play", Type.GetType("EliteVoice.ConfigReader.Commands.PlayCommand"));
-            registration.Add("Randomize", Type.GetType("EliteVoice.ConfigReader.Commands.RandomizeCommand"));
+			registration.Add("Stop", Type.GetType("EliteVoice.ConfigReader.Commands.StopCommand"));
+			registration.Add("Randomize", Type.GetType("EliteVoice.ConfigReader.Commands.RandomizeCommand"));
             registration.Add("Block", Type.GetType("EliteVoice.ConfigReader.Commands.BlockCommand"));
 
 			registration.Add("Switch", Type.GetType("EliteVoice.ConfigReader.Commands.SwitchCommand"));
 			registration.Add("Case", Type.GetType("EliteVoice.ConfigReader.Commands.CaseCommand"));
 			registration.Add("Default", Type.GetType("EliteVoice.ConfigReader.Commands.BlockCommand"));
+
+			registration.Add("Replace", Type.GetType("EliteVoice.ConfigReader.Commands.ReplaceCommand"));
+
 			this.config = config;
         }
 
@@ -51,19 +56,29 @@ namespace EliteVoice.ConfigReader
             {
                 for (int i = 0; i < root.ChildNodes.Count; i++)
                 {
-                    if (root.ChildNodes[i].NodeType == XmlNodeType.Element && root.ChildNodes[i].Name.Equals("Event"))
+                    if (root.ChildNodes[i].NodeType == XmlNodeType.Element)
                     {
                         XmlElement elm = (XmlElement)root.ChildNodes[i];
-                        string name = elm.GetAttribute("name");
-                        if (name.Length > 0)
-                        {
-                            EventsCommand command = new EventsCommand();
-                            readContent(elm, command);
-                            logger.log("Append command: {" + name + "}");
-                            events.Add(name, command);
-                        }
-                    }
-                }
+						string elmName = root.ChildNodes[i].Name;
+
+						if (elmName.Equals("Event"))
+						{
+							string name = elm.GetAttribute("name");
+							if (name.Length > 0)
+							{
+								EventsCommand command = new EventsCommand();
+								readContent(elm, command);
+								logger.log("Append command: {" + name + "}");
+								events.Add(name, command);
+							}
+						}
+						else if (elmName.Equals("Init"))
+						{
+							readContent(elm, init);
+						}
+
+					}
+				}
             }
 
         }

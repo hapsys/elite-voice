@@ -9,7 +9,7 @@ namespace EliteVoice.ConfigReader
     abstract class AbstractCommand : ICommand
     {
         public ICommand parent { protected set; get; } = null;
-        LinkedList<ICommand> commands = new LinkedList<ICommand>();
+        protected LinkedList<ICommand> commands { get; } = new LinkedList<ICommand>();
         IDictionary<string, string> properties = new Dictionary<string,string>();
 
         protected TextLogger logger = TextLogger.instance;

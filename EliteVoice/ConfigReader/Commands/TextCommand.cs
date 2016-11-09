@@ -9,7 +9,8 @@ namespace EliteVoice.ConfigReader.Commands
 {
     class TextCommand : AbstractCommand
     {
-        public override int runCommand(IDictionary<string, Object> parameters)
+		TextLogger logger = TextLogger.instance;
+		public override int runCommand(IDictionary<string, Object> parameters)
         {
 
             Speech sp = Speech.instance;
@@ -25,6 +26,11 @@ namespace EliteVoice.ConfigReader.Commands
             else if (getProperties().ContainsKey("@text"))
             {
                 text = getProperties()["@text"];
+				//logger.log("Replacers count " + EventContext.instance.replacers.Count);
+				foreach (Replacer rp in EventContext.instance.replacers)
+				{
+					text = rp.Replace(text);
+				}
             }
 
             if (text != null && text.Length > 0)

@@ -13,7 +13,16 @@ namespace EliteVoice.ConfigReader.Commands
         public override int runCommand(IDictionary<string, Object> parameters)
         {
             Speech sp = Speech.instance;
-            foreach (string key in getProperties().Keys)
+
+			/*
+			 * Store values
+			 */
+			SpObjectToken prevVoice = sp.speech.Voice;
+			int prevVolume = sp.speech.Volume;
+			int prevRate = sp.speech.Rate;
+
+
+			foreach (string key in getProperties().Keys)
             {
                 string value = getProperties()[key];
                 switch(key)
@@ -42,7 +51,13 @@ namespace EliteVoice.ConfigReader.Commands
                 }
             }
             runChilds(parameters);
-            return 0;
+			if (commands.Count > 0)
+			{
+				sp.speech.Voice = prevVoice;
+				sp.speech.Volume = prevVolume;
+				sp.speech.Rate = prevRate;
+			}
+			return 0;
         }
     }
 }

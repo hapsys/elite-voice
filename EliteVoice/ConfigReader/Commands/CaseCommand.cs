@@ -30,7 +30,7 @@ namespace EliteVoice.ConfigReader.Commands
 					try
 					{
 						RegexOptions options = (key.Equals("imatch")) ? RegexOptions.IgnoreCase | RegexOptions.Compiled : RegexOptions.Compiled;
-						reg = new Regex("^.*/([^/]+)$", options);
+						reg = new Regex(value, options);
 					}
 					catch (ArgumentException e1)
 					{
