@@ -51,7 +51,7 @@ Default | | Условие по умолчанию в блоке Switch. Обя�
 	<TextToSpeech voice="Anna" volume="50" rate="10"/>
 	<Text>Привет люди! Говорит Анна.</Text>
 	<Pause value="500"/>
-	<TextToSpeech voice="Irina" rate="10">
+	<TextToSpeech voice="Irina" rate="0">
 		<Text>Ирина вмешивается в процесс</Text>
 	</TextToSpeech>
 	<Pause value="500"/>
