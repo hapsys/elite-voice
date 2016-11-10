@@ -27,7 +27,7 @@ namespace EliteVoice.ConfigReader.Commands
 
 			if (getProperties().ContainsKey("name"))
 			{
-				name = getProperties()["name"];
+				name = getProperties()["name"].ToLower();
 			}
 
 

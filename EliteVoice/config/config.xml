@@ -34,8 +34,6 @@
 			<Case iequal="true">
 				<Text>Вы находитесь на станции</Text>
 				<Text select="StationName"/>
-				<Text>тип</Text>
-				<Text select="StationType"/>
 				<Text>в системе</Text>
 				<Text select="StarSystem"/>
 			</Case>

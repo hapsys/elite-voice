@@ -9,7 +9,6 @@ namespace EliteVoice.ConfigReader.Commands
 {
     class TextCommand : AbstractCommand
     {
-		TextLogger logger = TextLogger.instance;
 		public override int runCommand(IDictionary<string, Object> parameters)
         {
 

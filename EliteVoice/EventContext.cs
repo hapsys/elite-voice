@@ -24,7 +24,7 @@ namespace EliteVoice
 				name = name.ToLower();
 				foreach (PlayCommand player in players)
 				{
-					if (player.name.Equals(name))
+					if (name.Equals(player.name))
 					{
 						result.Add(player);
 					}
