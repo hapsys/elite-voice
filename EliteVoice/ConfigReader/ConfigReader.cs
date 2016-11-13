@@ -50,38 +50,45 @@ namespace EliteVoice.ConfigReader
         public void parse()
         {
             XmlDocument xml = new XmlDocument();
-            xml.Load(config);
-            XmlNode root = xml.DocumentElement;
-            if (root.HasChildNodes)
-            {
-                for (int i = 0; i < root.ChildNodes.Count; i++)
-                {
-                    if (root.ChildNodes[i].NodeType == XmlNodeType.Element)
-                    {
-                        XmlElement elm = (XmlElement)root.ChildNodes[i];
-						string elmName = root.ChildNodes[i].Name;
-
-						if (elmName.Equals("Event"))
+			try { 
+				xml.Load(config);
+				XmlNode root = xml.DocumentElement;
+				if (root.HasChildNodes)
+				{
+					for (int i = 0; i < root.ChildNodes.Count; i++)
+					{
+						if (root.ChildNodes[i].NodeType == XmlNodeType.Element)
 						{
-							string name = elm.GetAttribute("name");
-							if (name.Length > 0)
+							XmlElement elm = (XmlElement)root.ChildNodes[i];
+							string elmName = root.ChildNodes[i].Name;
+
+							if (elmName.Equals("Event"))
 							{
-								EventsCommand command = new EventsCommand();
-								readContent(elm, command);
-								logger.log("Append command: {" + name + "}");
-								events.Add(name, command);
+								string name = elm.GetAttribute("name");
+								if (name.Length > 0)
+								{
+									EventsCommand command = new EventsCommand();
+									readContent(elm, command);
+									logger.log("Append command: {" + name + "}");
+									events.Add(name, command);
+								}
 							}
-						}
-						else if (elmName.Equals("Init"))
-						{
-							readContent(elm, init);
-						}
+							else if (elmName.Equals("Init"))
+							{
+								readContent(elm, init);
+							}
 
+						}
 					}
 				}
-            }
+			}
+			catch (Exception e)
+			{
+				logger.log("Error parsing XML at \"" + config + "\"");
+			}
 
-        }
+
+		}
 
         private void readContent(XmlElement current, ICommand parent)
         {
