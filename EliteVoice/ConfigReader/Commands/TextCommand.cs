@@ -19,8 +19,7 @@ namespace EliteVoice.ConfigReader.Commands
                 string parameter = getProperties()["select"];
                 if (parameters.ContainsKey(parameter))
                 {
-//                  text = (string)parameters[parameter];
-                    text = string.Format("{0:N2}",parameters[parameter]);
+                    text = string.Format("{0:#,##}",parameters[parameter]);
                 }
             }
             else if (getProperties().ContainsKey("@text"))
