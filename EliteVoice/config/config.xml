@@ -5,7 +5,8 @@
     <Replace source="StarSystem" match="Euryale" replace="Эври_ала"/>
     <Replace match="в порту" replace="в порт_у"/>
     <Replace match="стороны" replace="сторон_ы"/>
-    <TextToSpeech voice="Anna" volume="50" rate="0"/>
+    <TextToSpeech voice="Tatiana+Clb" volume="50" rate="0"/>
+    <Text>Добро пожаловать в программу</Text>
   </Init>
   <!-- Загрузка игры открытая/соло/ЧГ -->
 	<Event name="LoadGame">
@@ -109,7 +110,14 @@
           </TextToSpeech>
 				</Case>
 				<Default>
-					<Text select="Message_Localised"/>
+					<Switch select="Message_Localised">
+						<Case equal="">
+							<Text select="Message"/>
+						</Case>
+						<Default>
+							<Text select="Message_Localised"/>
+						</Default>
+					</Switch>
 				</Default>
 			</Switch>
 		</TextToSpeech>
