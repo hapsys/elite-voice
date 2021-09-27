@@ -1,28 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.XPath;
-using SpeechLib;
+using Saxon.Api;
+
 
 namespace EliteVoice.ConfigReader.Commands
 {
     class TextCommand : AbstractCommand
     {
-		public override int runCommand(XmlElement node)
+		public override int runCommand(XdmNode node)
         {
 
             Speech sp = Speech.instance;
             string text = "";
             if (getProperties().ContainsKey("select"))
             {
-                XPathNavigator navigator = node.CreateNavigator();
-                //text = XMLContext.instance.EvaluateSting(XMLContext.instance.getXPathExpression(getProperties()["select"]), navigator);
-                XmlNodeList iter = node.SelectNodes(getProperties()["select"]);
-                foreach (XmlNode child in iter)
+                string exp = getProperties()["select"];
+                XdmValue iter = XMLContext.instance.xpath.Evaluate(exp, node);
+                foreach (XdmItem child in iter)
                 {
+                    /*
                     switch (child.NodeType)
                     {
                         case XmlNodeType.Element:
@@ -32,6 +29,15 @@ namespace EliteVoice.ConfigReader.Commands
                             text += child.InnerText;
                             break;
                     }
+                    */
+                    if (child.IsNode())
+                    {
+                        text += ((XdmNode)child).StringValue;
+                    } else if (child.IsAtomic())
+                    {
+                        text += child.Simplify.ToString();
+                    }
+                    //
                 }
                 logger.log("Text Select " + text);
             }

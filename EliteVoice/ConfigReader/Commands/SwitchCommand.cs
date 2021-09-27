@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Saxon.Api;
+
 
 namespace EliteVoice.ConfigReader.Commands
 {
@@ -21,22 +23,15 @@ namespace EliteVoice.ConfigReader.Commands
 					break;
 			}
 		}
-		public override int runCommand(XmlElement node)
+		public override int runCommand(XdmNode node)
 		{
 			if (selectParam != null && selectParam.Length > 0)
 			{
-				/*
-				select = "";
-				if (parameters.ContainsKey(selectParam))
-				{
-					select = (parameters[selectParam] != null)? parameters[selectParam].ToString() : "";
-				}
-				runChilds(parameters);
-				*/
-				XmlElement selectNode = (XmlElement)node.SelectSingleNode(selectParam);
-				if (selectNode != null)
+				//XmlElement selectNode = (XmlElement)node.SelectSingleNode(selectParam);
+				XdmItem selectNode = XMLContext.instance.xpath.EvaluateSingle(selectParam, node);
+				if (selectNode != null && selectNode.IsNode())
                 {
-					runChilds(selectNode);
+					runChilds((XdmNode)selectNode);
 				}
 			}
 			else

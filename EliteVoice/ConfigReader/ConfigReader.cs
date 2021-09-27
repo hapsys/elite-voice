@@ -34,7 +34,9 @@ namespace EliteVoice.ConfigReader
 
 			registration.Add("Replace", Type.GetType("EliteVoice.ConfigReader.Commands.ReplaceCommand"));
 
-			this.config = config;
+            registration.Add("If", Type.GetType("EliteVoice.ConfigReader.Commands.IfCommand"));
+
+            this.config = config;
         }
 
         public ICommand getEvent(string eventName)

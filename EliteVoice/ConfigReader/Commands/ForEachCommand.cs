@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.XPath;
+using Saxon.Api;
 
 namespace EliteVoice.ConfigReader.Commands
 {
@@ -22,14 +21,17 @@ namespace EliteVoice.ConfigReader.Commands
 					break;
 			}
 		}
-		public override int runCommand(XmlElement node)
+		public override int runCommand(XdmNode node)
 		{
 			if (selectParam != null && selectParam.Length > 0)
 			{
-				XmlNodeList nodes = node.SelectNodes(selectParam);
-				foreach (XmlNode element in nodes)
+				XdmValue nodes = XMLContext.instance.xpath.Evaluate(selectParam, node);
+				if (nodes.Count > 0)
                 {
-					runChilds((XmlElement)element);
+					foreach (XdmNode element in nodes)
+                    {
+						runChilds(element);
+					}
 
 				}
 			}

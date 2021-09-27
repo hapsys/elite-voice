@@ -7,7 +7,7 @@ using System.Threading;
 using System.IO;
 using NAudio;
 using NAudio.Wave;
-using System.Xml;
+using Saxon.Api;
 
 namespace EliteVoice.ConfigReader.Commands
 {
@@ -77,7 +77,7 @@ namespace EliteVoice.ConfigReader.Commands
             isOpen = false;
         }
 
-        public override int runCommand(XmlElement node)
+        public override int runCommand(XdmNode node)
         {
 
             if (audioFileReader == null)

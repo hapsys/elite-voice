@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using Saxon.Api;
 
 namespace EliteVoice.ConfigReader.Commands
 {
 	class InitCommand: AbstractCommand
 	{
-		public override int runCommand(XmlElement node)
+		public override int runCommand(XdmNode node)
 		{
 			runChilds(node);
 			return 0;

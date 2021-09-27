@@ -31,7 +31,7 @@
 	<Event name="Location">
     <Text>Если Вы по какой-то причине не помните, где находитесь, то предлагаю Вам прослушать краткую сводку.</Text>
 		<Pause value="500"/>
-    <Switch select="Docked">
+    <Switch select="/root/Docked">
 			<Case iequal="true">
 				<Text>Вы находитесь на станции</Text>
 				<Text select="../StationName/text()"/>
@@ -67,8 +67,8 @@
 			<Text>Прыжок совершон.</Text>
 			<Pause value="500"/>
 			<Text>Система: </Text>
-			<Text select="StarSystem"/>
-      <Switch select="Population">
+			<Text select="//StarSystem"/>
+      <Switch select="//Population">
         <Case iequal="0">
           <Text>Система необитаемая</Text>
         </Case>

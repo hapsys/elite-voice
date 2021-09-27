@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+using Saxon.Api;
+
 
 namespace EliteVoice.ConfigReader
 {
@@ -14,6 +12,6 @@ namespace EliteVoice.ConfigReader
         IDictionary<string,string> getProperties();
         void addProperty(String key, String value);
 
-        int runCommand(XmlElement node);
+        int runCommand(XdmNode node);
     }
 }

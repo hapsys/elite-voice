@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using Saxon.Api;
+
 
 namespace EliteVoice.ConfigReader.Commands
 {
@@ -41,7 +37,7 @@ namespace EliteVoice.ConfigReader.Commands
 			}
 		}
 
-		public override int runCommand(XmlElement node)
+		public override int runCommand(XdmNode node)
 		{
 			Replacer rp = new Replacer(match, replace, source, target, ignorecase);
 			if (rp.isValid)

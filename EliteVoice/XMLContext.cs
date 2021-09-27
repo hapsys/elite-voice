@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.XPath;
+using Saxon.Api;
 
 
 
@@ -17,7 +18,15 @@ namespace EliteVoice
 
         private IDictionary<string, XPathExpression> expressions = new Dictionary<string, XPathExpression>();
 
+        public Processor processor { get; } = new Processor();
         //
+        public XPathCompiler xpath { get; private set; }
+
+        protected XMLContext()
+        {
+            xpath = processor.NewXPathCompiler();
+            xpath.Caching = true;
+        }
         public XPathExpression getXPathExpression(string expression)
         {
             XPathExpression result = null;

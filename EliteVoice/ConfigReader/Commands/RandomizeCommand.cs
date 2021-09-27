@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Saxon.Api;
 
 namespace EliteVoice.ConfigReader.Commands
 {
     class RandomizeCommand : AbstractCommand
     {
-        public override int runCommand(XmlElement node)
+        public override int runCommand(XdmNode node)
         {
             LinkedList<ICommand> childs = getChilds();
             LinkedList<int> priority = new LinkedList<int>();

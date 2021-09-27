@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
-using System.Xml;
-using System.Xml.XPath;
+using Saxon.Api;
+
 
 namespace EliteVoice.ConfigReader.Commands
 {
@@ -47,14 +47,14 @@ namespace EliteVoice.ConfigReader.Commands
 					break;
 			}
 		}
-		public override int runCommand(XmlElement node)
+		public override int runCommand(XdmNode node)
 		{
 			int result = 0;
 
 			if (parent.GetType() == typeof(SwitchCommand))
 			{
 				bool success = false;
-				string select = node.InnerText;
+				string select = node.StringValue;
 				logger.log("Select has value \"" + select + "\"");
 				if (reg != null)
 				{
@@ -70,8 +70,9 @@ namespace EliteVoice.ConfigReader.Commands
 				}
 				else if (test != null)
 				{
-					XPathNavigator navigator = node.CreateNavigator();
-					success =  XMLContext.instance.EvaluateBoolean(XMLContext.instance.getXPathExpression(test), navigator);
+					//XPathNavigator navigator = node.CreateNavigator();
+					//success =  XMLContext.instance.EvaluateBoolean(XMLContext.instance.getXPathExpression(test), navigator);
+					success = XMLContext.instance.xpath.EvaluateSingle(test, node) != null;
 				}
 
 				if (success)

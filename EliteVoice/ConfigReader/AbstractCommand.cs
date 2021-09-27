@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
+using Saxon.Api;
 
 namespace EliteVoice.ConfigReader
 {
@@ -39,9 +39,9 @@ namespace EliteVoice.ConfigReader
             return properties;
         }
 
-        public abstract int runCommand(XmlElement node);
+        public abstract int runCommand(XdmNode node);
 
-        protected void runChilds(XmlElement node)
+        protected void runChilds(XdmNode node)
         {
             foreach (ICommand command in commands)
             {

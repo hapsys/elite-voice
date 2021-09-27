@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using SpeechLib;
-using System.Speech;
-using System.Speech.Synthesis;
+using Saxon.Api;
 
 
 namespace EliteVoice.ConfigReader.Commands
 {
     class TextToSpeechCommand : AbstractCommand
     {
-        public override int runCommand(XmlElement node)
+        public override int runCommand(XdmNode node)
         {
             Speech sp = Speech.instance;
             //SpeechSynthesizer sp = new SpeechSynthesizer();
