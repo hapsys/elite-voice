@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace EliteVoice.ConfigReader
 {
@@ -38,13 +39,13 @@ namespace EliteVoice.ConfigReader
             return properties;
         }
 
-        public abstract int runCommand(IDictionary<string, Object> parameters);
+        public abstract int runCommand(XmlElement node);
 
-        protected void runChilds(IDictionary<string, Object> parameters)
+        protected void runChilds(XmlElement node)
         {
             foreach (ICommand command in commands)
             {
-                if (command.runCommand(parameters) < 0)
+                if (command.runCommand(node) < 0)
                 {
                     break;
                 }

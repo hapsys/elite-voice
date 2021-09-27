@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace EliteVoice.ConfigReader.Commands
 {
     class BlockCommand : AbstractCommand
     {
-        public override int runCommand(IDictionary<string, object> parameters)
+        public override int runCommand(XmlElement node)
         {
-            runChilds(parameters);
+            runChilds(node);
             return 0;
         }
     }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.XPath;
 
 namespace EliteVoice.ConfigReader.Commands
 {
@@ -12,6 +14,7 @@ namespace EliteVoice.ConfigReader.Commands
 		private Regex reg = null;
 		private string eq = null;
 		private string ieq = null;
+		private string test = null;
 		public override void addProperty(string key, string value)
 		{
 			base.addProperty(key, value);
@@ -39,16 +42,19 @@ namespace EliteVoice.ConfigReader.Commands
 
 					}
 					break;
+				case "test":
+					test = value;
+					break;
 			}
 		}
-		public override int runCommand(IDictionary<string, object> parameters)
+		public override int runCommand(XmlElement node)
 		{
 			int result = 0;
 
 			if (parent.GetType() == typeof(SwitchCommand))
 			{
 				bool success = false;
-				string select = ((SwitchCommand)parent).select;
+				string select = node.InnerText;
 				logger.log("Select has value \"" + select + "\"");
 				if (reg != null)
 				{
@@ -62,11 +68,16 @@ namespace EliteVoice.ConfigReader.Commands
 				{
 					success = ieq.Equals(select.ToLower());
 				}
-				
+				else if (test != null)
+				{
+					XPathNavigator navigator = node.CreateNavigator();
+					success =  XMLContext.instance.EvaluateBoolean(XMLContext.instance.getXPathExpression(test), navigator);
+				}
+
 				if (success)
 				{
 					result = -1;
-					runChilds(parameters);
+					runChilds(node);
 				}
 			}
 			else

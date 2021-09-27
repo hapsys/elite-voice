@@ -5,7 +5,7 @@
     <Replace source="StarSystem" match="Euryale" replace="Эври_ала"/>
     <Replace match="в порту" replace="в порт_у"/>
     <Replace match="стороны" replace="сторон_ы"/>
-    <TextToSpeech voice="Tatiana+Clb" volume="50" rate="0"/>
+    <TextToSpeech voice="Tatiana+Clb" volume="1" rate="0"/>
     <Text>Добро пожаловать в программу</Text>
   </Init>
   <!-- Загрузка игры открытая/соло/ЧГ -->
@@ -34,15 +34,15 @@
     <Switch select="Docked">
 			<Case iequal="true">
 				<Text>Вы находитесь на станции</Text>
-				<Text select="StationName"/>
+				<Text select="../StationName/text()"/>
 				<Text>в системе</Text>
-				<Text select="StarSystem"/>
+				<Text select="../StarSystem"/>
 			</Case>
 			<Default>
 				<Text>Вы находитесь в какихто гребен_ях</Text>
 				<Pause value="100"/>
 				<Text>в системе</Text>
-				<Text select="StarSystem"/>
+				<Text select="../StarSystem"/>
 			</Default>
 		</Switch>
 		<Pause value="500"/>
@@ -51,12 +51,38 @@
     <TextToSpeech voice="Anna" volume="50" rate="0"/>
   </Event>
   <!-- Завершение гиперпрыжка -->
-	<Event name="FSDJump">
+  <Event name="StartJump">
+    <TextToSpeech>
+      <Text>Начинаем гиперпрыжок</Text>
+      <Pause value="500"/>
+      <Text>Система: </Text>
+      <Text select="StarSystem"/>
+      <Pause value="500"/>
+      <Text>Класс звезды: </Text>
+      <Text select="StarClass"/>
+    </TextToSpeech>
+  </Event>
+  <Event name="FSDJump">
 		<TextToSpeech>
 			<Text>Прыжок совершон.</Text>
 			<Pause value="500"/>
 			<Text>Система: </Text>
 			<Text select="StarSystem"/>
+      <Switch select="Population">
+        <Case iequal="0">
+          <Text>Система необитаемая</Text>
+        </Case>
+        <Default>
+          <Text>Население системы: </Text>
+          <Text select="./text()"/>
+          <Pause value="500"/>
+          <Text>Всего фракций: </Text>
+          <Text select="count(../Factions)"/>
+          <Pause value="500"/>
+          <Text>Контроллирующая фракция: </Text>
+          <Text select="../SystemFaction"/>
+        </Default>
+      </Switch>
 		</TextToSpeech>
 	</Event>
   <!-- Завершение перехвата игрока npc/игроком -->
@@ -77,7 +103,7 @@
 		<Play file="sound\dveri zakrivayutsya 2.wav" volume="20" async="true"/>
 	</Event>
    <!-- Получение текстового сообщения -->
-	<Event name="ReceiveText">
+	<Event name="ReceiveText1">
 		<TextToSpeech>
 			<Text>Новое сообщение от</Text>
 			<Switch select="From_Localised">
@@ -110,8 +136,8 @@
           </TextToSpeech>
 				</Case>
 				<Default>
-					<Switch select="Message_Localised">
-						<Case equal="">
+					<Switch select="../Message_Localised">
+						<Case equal="string-length(.) = 0">
 							<Text select="Message"/>
 						</Case>
 						<Default>

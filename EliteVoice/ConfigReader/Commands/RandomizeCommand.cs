@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace EliteVoice.ConfigReader.Commands
 {
     class RandomizeCommand : AbstractCommand
     {
-        public override int runCommand(IDictionary<string, object> parameters)
+        public override int runCommand(XmlElement node)
         {
             LinkedList<ICommand> childs = getChilds();
             LinkedList<int> priority = new LinkedList<int>();
@@ -44,7 +45,7 @@ namespace EliteVoice.ConfigReader.Commands
                 idx++;
             }
 
-            childs.ElementAt(idx).runCommand(parameters);
+            childs.ElementAt(idx).runCommand(node);
 
             return 0;
         }

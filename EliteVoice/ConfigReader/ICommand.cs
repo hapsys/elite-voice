@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace EliteVoice.ConfigReader
 {
@@ -13,6 +14,6 @@ namespace EliteVoice.ConfigReader
         IDictionary<string,string> getProperties();
         void addProperty(String key, String value);
 
-        int runCommand(IDictionary<string, Object> parameters);
+        int runCommand(XmlElement node);
     }
 }

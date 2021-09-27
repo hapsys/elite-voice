@@ -3,24 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.XPath;
 using SpeechLib;
 
 namespace EliteVoice.ConfigReader.Commands
 {
     class TextCommand : AbstractCommand
     {
-		public override int runCommand(IDictionary<string, Object> parameters)
+		public override int runCommand(XmlElement node)
         {
 
             Speech sp = Speech.instance;
-            string text = null;
+            string text = "";
             if (getProperties().ContainsKey("select"))
             {
-                string parameter = getProperties()["select"];
-                if (parameters.ContainsKey(parameter))
+                XPathNavigator navigator = node.CreateNavigator();
+                //text = XMLContext.instance.EvaluateSting(XMLContext.instance.getXPathExpression(getProperties()["select"]), navigator);
+                XmlNodeList iter = node.SelectNodes(getProperties()["select"]);
+                foreach (XmlNode child in iter)
                 {
-                    text = (string)parameters[parameter];
+                    switch (child.NodeType)
+                    {
+                        case XmlNodeType.Element:
+                            text += child.InnerText;
+                            break;
+                        case XmlNodeType.Text:
+                            text += child.InnerText;
+                            break;
+                    }
                 }
+                logger.log("Text Select " + text);
             }
             else if (getProperties().ContainsKey("@text"))
             {

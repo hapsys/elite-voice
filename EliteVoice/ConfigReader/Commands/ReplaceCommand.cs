@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace EliteVoice.ConfigReader.Commands
 {
@@ -40,7 +41,7 @@ namespace EliteVoice.ConfigReader.Commands
 			}
 		}
 
-		public override int runCommand(IDictionary<string, object> parameters)
+		public override int runCommand(XmlElement node)
 		{
 			Replacer rp = new Replacer(match, replace, source, target, ignorecase);
 			if (rp.isValid)

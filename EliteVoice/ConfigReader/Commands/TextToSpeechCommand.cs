@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using SpeechLib;
+using System.Speech;
+using System.Speech.Synthesis;
 
 
 namespace EliteVoice.ConfigReader.Commands
 {
     class TextToSpeechCommand : AbstractCommand
     {
-        public override int runCommand(IDictionary<string, Object> parameters)
+        public override int runCommand(XmlElement node)
         {
             Speech sp = Speech.instance;
+            //SpeechSynthesizer sp = new SpeechSynthesizer();
 
-			/*
+            /*
 			 * Store values
 			 */
-			SpObjectToken prevVoice = sp.speech.Voice;
+            SpObjectToken prevVoice = sp.speech.Voice;
 			int prevVolume = sp.speech.Volume;
 			int prevRate = sp.speech.Rate;
 
@@ -50,7 +54,7 @@ namespace EliteVoice.ConfigReader.Commands
                         break;
                 }
             }
-            runChilds(parameters);
+            runChilds(node);
 			if (commands.Count > 0)
 			{
 				sp.speech.Voice = prevVoice;

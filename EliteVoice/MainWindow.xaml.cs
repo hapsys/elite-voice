@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SpeechLib;
 using EliteVoice.ConfigReader;
+using NAudio;
 
 
 namespace EliteVoice
@@ -25,6 +26,7 @@ namespace EliteVoice
     {
         private Speech speech;
         private ISpeechObjectTokens audios;
+        private CommandProcessor commands;
         private Thread tProcessor;
         private Thread lProcessor;
         public MainWindow()
@@ -34,14 +36,22 @@ namespace EliteVoice
             TextLogger logger = TextLogger.instance;
             logger.output = logTextBox;
 
+            var enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator();
+            var dev = enumerator.GetDefaultAudioEndpoint(NAudio.CoreAudioApi.DataFlow.Render, NAudio.CoreAudioApi.Role.Console);
+            //logger.log(dev.DeviceFriendlyName);
+            //logger.log(dev.FriendlyName);
+
             speech = Speech.instance;
+            //speech.speech.
             audios = speech.speech.GetAudioOutputs();
             int idx = 0, i = 0;
             foreach (SpObjectToken audio in audios)
             {
                 audioDevices.Items.Add(audio.GetDescription());
-                if (audio.Equals(speech.speech.AudioOutput))
+                //if (audio.GetDescription().Equals(speech.speech.AudioOutput.GetDescription()))
+                if (audio.GetDescription().Equals(dev.FriendlyName))
                 {
+                    speech.speech.AudioOutput = audio;
                     idx = i;
                 }
                 i++;
@@ -63,7 +73,7 @@ namespace EliteVoice
             /*
              * 
              */
-            CommandProcessor commands = new CommandProcessor(config);
+            commands = new CommandProcessor(config);
             List<FileDescription> files = new List<FileDescription>();
             fileGrid.ItemsSource = files;
             FileProcessor processor = new FileProcessor(files, commands);
@@ -89,6 +99,7 @@ namespace EliteVoice
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            commands.doNextLine = false;
             try
             {
                 tProcessor.Interrupt();

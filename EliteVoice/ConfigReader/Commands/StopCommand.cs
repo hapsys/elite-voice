@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Xml;
 
 namespace EliteVoice.ConfigReader.Commands
 {
@@ -27,7 +28,7 @@ namespace EliteVoice.ConfigReader.Commands
 					break;
 			}
 		}
-		public override int runCommand(IDictionary<string, object> parameters)
+		public override int runCommand(XmlElement node)
 		{
 			Thread thread = new Thread(new ThreadStart(this.runThreads));
 			thread.Start();

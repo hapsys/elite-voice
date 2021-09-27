@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.XPath;
 
 namespace EliteVoice.ConfigReader.Commands
 {
-	class SwitchCommand : AbstractCommand
+	class ForEachCommand : AbstractCommand
 	{
 
 		private string selectParam = null;
@@ -25,23 +26,16 @@ namespace EliteVoice.ConfigReader.Commands
 		{
 			if (selectParam != null && selectParam.Length > 0)
 			{
-				/*
-				select = "";
-				if (parameters.ContainsKey(selectParam))
-				{
-					select = (parameters[selectParam] != null)? parameters[selectParam].ToString() : "";
-				}
-				runChilds(parameters);
-				*/
-				XmlElement selectNode = (XmlElement)node.SelectSingleNode(selectParam);
-				if (selectNode != null)
+				XmlNodeList nodes = node.SelectNodes(selectParam);
+				foreach (XmlNode element in nodes)
                 {
-					runChilds(selectNode);
+					runChilds((XmlElement)element);
+
 				}
 			}
 			else
 			{
-				logger.log("Check \"select\" parameter at Switch command!");
+				logger.log("Check \"select\" parameter at ForEach command!");
 			}
 			return 0;
 		}

@@ -90,8 +90,11 @@ namespace EliteVoice
                     processor.process(line);
                 }
 
-                Thread.Sleep(500);
-            }
+                while (!processor.doNextLine)
+                    {
+                        Thread.Sleep(500);
+                    }
+                }
             }
             catch (Exception e1)
             {
