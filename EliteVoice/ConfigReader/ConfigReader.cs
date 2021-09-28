@@ -22,18 +22,14 @@ namespace EliteVoice.ConfigReader
             registration.Add("TextToSpeech", Type.GetType("EliteVoice.ConfigReader.Commands.TextToSpeechCommand"));
             registration.Add("Text", Type.GetType("EliteVoice.ConfigReader.Commands.TextCommand"));
             registration.Add("Pause", Type.GetType("EliteVoice.ConfigReader.Commands.PauseCommand"));
-            //registration.Add("Play", Type.GetType("EliteVoice.ConfigReader.Commands.PlaySoundCommand"));
             registration.Add("Play", Type.GetType("EliteVoice.ConfigReader.Commands.PlayCommand"));
 			registration.Add("Stop", Type.GetType("EliteVoice.ConfigReader.Commands.StopCommand"));
 			registration.Add("Randomize", Type.GetType("EliteVoice.ConfigReader.Commands.RandomizeCommand"));
             registration.Add("Block", Type.GetType("EliteVoice.ConfigReader.Commands.BlockCommand"));
-
 			registration.Add("Switch", Type.GetType("EliteVoice.ConfigReader.Commands.SwitchCommand"));
 			registration.Add("Case", Type.GetType("EliteVoice.ConfigReader.Commands.CaseCommand"));
 			registration.Add("Default", Type.GetType("EliteVoice.ConfigReader.Commands.BlockCommand"));
-
 			registration.Add("Replace", Type.GetType("EliteVoice.ConfigReader.Commands.ReplaceCommand"));
-
             registration.Add("If", Type.GetType("EliteVoice.ConfigReader.Commands.IfCommand"));
 
             this.config = config;

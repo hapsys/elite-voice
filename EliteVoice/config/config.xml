@@ -5,7 +5,7 @@
     <Replace source="StarSystem" match="Euryale" replace="Эври_ала"/>
     <Replace match="в порту" replace="в порт_у"/>
     <Replace match="стороны" replace="сторон_ы"/>
-    <TextToSpeech voice="Tatiana+Clb" volume="1" rate="0"/>
+    <TextToSpeech voice="Tatiana" volume="1" rate="0"/>
     <Text>Добро пожаловать в программу</Text>
   </Init>
   <!-- Загрузка игры открытая/соло/ЧГ -->
@@ -53,13 +53,15 @@
   <!-- Завершение гиперпрыжка -->
   <Event name="StartJump">
     <TextToSpeech>
-      <Text>Начинаем гиперпрыжок</Text>
-      <Pause value="500"/>
-      <Text>Система: </Text>
-      <Text select="StarSystem"/>
-      <Pause value="500"/>
-      <Text>Класс звезды: </Text>
-      <Text select="StarClass"/>
+      <If test="//JumpType/text() = 'Hyperspace'">
+				<Text>Начинаем гиперпрыжок</Text>
+				<Pause value="500"/>
+				<Text>Система: </Text>
+				<Text select="StarSystem"/>
+				<Pause value="500"/>
+				<Text>Класс звезды: </Text>
+				<Text select="StarClass"/>
+      </If>
     </TextToSpeech>
   </Event>
   <Event name="FSDJump">
@@ -75,6 +77,7 @@
         <Default>
           <Text>Население системы: </Text>
           <Text select="./text()"/>
+          <Text>человек</Text>
           <Pause value="500"/>
           <Text>Всего фракций: </Text>
           <Text select="count(../Factions)"/>

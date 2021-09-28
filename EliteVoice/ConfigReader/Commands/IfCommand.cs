@@ -11,9 +11,9 @@ namespace EliteVoice.ConfigReader.Commands
 		public override int runCommand(XdmNode node)
         {
 
-            if (getProperties().ContainsKey("select"))
+            if (getProperties().ContainsKey("test"))
             {
-                string exp = getProperties()["select"];
+                string exp = getProperties()["test"];
                 XdmItem child = XMLContext.instance.xpath.EvaluateSingle(exp, node);
                 if (child.IsAtomic() && child.Matches(XdmAtomicType.BOOLEAN))
                 {
