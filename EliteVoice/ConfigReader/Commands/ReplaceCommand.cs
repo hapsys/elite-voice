@@ -20,7 +20,7 @@ namespace EliteVoice.ConfigReader.Commands
 			switch (key)
 			{
 				case "source":
-					source = value;
+					//source = value;
 					break;
 				case "match":
 					match = value;
@@ -32,7 +32,7 @@ namespace EliteVoice.ConfigReader.Commands
 					replace = value;
 					break;
 				case "target":
-					target = value;
+					//target = value;
 					break;
 			}
 		}
