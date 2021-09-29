@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using SpeechLib;
 using EliteVoice.ConfigReader;
 using NAudio;
+using log4net;
+using log4net.Config;
 
 
 namespace EliteVoice
@@ -33,8 +35,24 @@ namespace EliteVoice
         {
             InitializeComponent();
 
+
             TextLogger logger = TextLogger.instance;
             logger.output = logTextBox;
+
+            /**
+             * Initialize log4net
+             */
+            string log4netPath = "log4net/log4net.config";
+            if (File.Exists(log4netPath))
+            {
+                XmlConfigurator.Configure(new FileInfo(log4netPath));
+            } else if (File.Exists(Environment.ExpandEnvironmentVariables("%APPDATA%") + "/EliteVoice/" + log4netPath))
+            {
+                XmlConfigurator.Configure(new FileInfo(Environment.ExpandEnvironmentVariables("%APPDATA%") + "/EliteVoice/" + log4netPath));
+            } else
+            {
+                logger.log("Not found log4net configuration. See documentation.");
+            }
 
             var enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator();
             var dev = enumerator.GetDefaultAudioEndpoint(NAudio.CoreAudioApi.DataFlow.Render, NAudio.CoreAudioApi.Role.Console);
@@ -65,10 +83,23 @@ namespace EliteVoice
             {
                 logger.log(voice.GetDescription());
             }
-            /*
-                * 
-                */
-            EliteVoice.ConfigReader.ConfigReader config = new EliteVoice.ConfigReader.ConfigReader("config/config.xml");
+            /**
+             * 
+            */
+            EliteVoice.ConfigReader.ConfigReader config = null;
+            string configPath = "config/config.xml";
+            if (File.Exists(configPath))
+            {
+                config = new EliteVoice.ConfigReader.ConfigReader(configPath);
+            } else if (File.Exists(Environment.ExpandEnvironmentVariables("%APPDATA%") + "/EliteVoice/" + configPath))
+            {
+                config = new EliteVoice.ConfigReader.ConfigReader(Environment.ExpandEnvironmentVariables("%APPDATA%") + "/EliteVoice/" + configPath);
+            } else
+            {
+                logger.log("Not found configuration!!!");
+                return;
+            }
+
             config.parse();
             /*
              * 
