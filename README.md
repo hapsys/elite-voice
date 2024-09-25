@@ -1,169 +1,169 @@
-# ED scoring events
+# ED voicing events
 
-## Предназначение:
-Программа является обработчиком событий журнала пилота игры Elite: Dangerous. Она автоматически отслеживает изменения в последнем файле журнала и обрабатывает события в нем, в соответствии с файлом конфигурации (***config\\config.xml***)
+## Purpose:
+This application is a handler for the Elite:Dangerous pilot log events. It automatically monitors the latest log file for changes and processes the events in it, according to the configuration file (***config\\config.xml***)
 
-###### Что может делать программа, реагируя на события:
+###### What an application can do by responding to events:
 
-1. Проигрывать звуковые файлы с синхронном и асинхронном режимах. Останавливать проигрывание в асинхронном режиме.
-2. Проговаривать текст из игры и фразы, определенные пользователем.
-3. Изменять голос произношения, его громкость и скорость.
-4. В соответствии с параметрами события, принимать то или другое решение.
-5. Случайным образом принимать то или другое решение.
+1. Play audio files in synchronous and asynchronous modes. Stop playback in asynchronous mode.
+2. Speak game text and user-defined phrases.
+3. Change the pronunciation voice, its volume and speed.
+4. In accordance with the parameters of the event, make one decision or another.
+5. To make one decision or another at random.
 
-## Установка программы:
-1. Качаем и устанавливаем синтезаторы голосовдля SAPI (Windows программы) https://rhvoice.ru/languages/ (русские/английские голоса). Так же можно скачать голоса с https://rhvoice.su/voices/ 
-2. Качаем последний релиз с гитхаба (Предварительно сохраните папку **%APPDATA%/ELiteVoice**, иначе можете потерять все конфигурационные настройки)
-3. Запускаем программу из **Пуск->Программы->EliteVoice C3S->EliteVoice**. Обработка началась. (Программу, без зазрения совести, можно запускать/останавливать в любой момент)
+## Application setup:
+1. Download and install voice synthesizers for SAPI (Windows) https://rhvoice.ru/languages/ (russian/english voices). You can also download voices from https://rhvoice.su/voices/
+2. Download the latest release from GitHub (Pre-save the folder **%APPDATA%/ELiteVoice**, otherwise you may lose all configuration settings).
+3. Launch the program from **Start->Applications->EliteVoice C3S->EliteVoice**. Processing has started (the application can be started/stopped at any time).
 
-## Синтаксис конфигурации (%APPDATA%\\EliteVoice\\config\\config.xml):
+## Configuration syntax (%APPDATA%\\EliteVoice\\config\\config.xml):
 
-Элемент | Атрибуты | Описание
-------- | -------- | --------
-Configuration | | Корневой элемент конфигурации
-Init | | Секция инициализации программы
-Replace | **match** - регулярное выражение для замены текста<br>**replace** - заменяющая строка<br>**ignorecase**[**true**\|false] - регистронезависимая замена | Глобальная замена произносимого текста<br>**!!!Изменения с предыдущей версии**
-Event | **name** - имя события или XPAth выражение | Секция события в игре. Все дочерние команды выполняются при возникновении данного события.
-Play | **name** - имя проигрывателя<br>**file** - имя звукового файла<br>**volume**[0..100] - уровень громкости<br>**async**[true\|**false**] - асинхронное воспроизведение | Проиграть звуковой файл
-Stop | **name** - имя проигрывателя<br>**fade** - время затухания в миллисекундах | Остановить проигрыватель звукового файла. Если параметр **name** отсутствует, то останавливаются все проигрыватели.
-TextToSpeech | **voice** - имя голоса озвучки<br>**volume**[0..100] - уровень громкости<br>**rate**[-10..10] - скорость произношения<br> | Установить параметры произношения текста для дочерних элементов или глобально.
-Text | **select** - XPAth выражение для выбора произносимого текста | Произнести текст из параметра события или взять его из содержимого элемента.
-Pause | **value** - время остановки в миллисекундах | Приостановить выполнение команд на **value** миллисекунд.
-Randomize | | Выбрать одну из дочерних команд случайным образом.
-Block | **priority**[**1**..] - приоритет выбора блока, чем выше, тем больше вероятность | Блок команд, для элемента Randomize
-Switch | **select** - XPAth выражение для выбора елемента | Выбор параметра для условия выбора в дочерних элементах Case/Default
-Case | **match\|imatch** - соответствует регулярному выражению<br>**equal\|iequal** - полное соответствие<br>**test** - проверка по  XPAth выражению  | Проверка условия значения параметра, заданного элементом Switch. Префикс **i** у атрибута означает, что сравнение будет регистронезависимым.
-Default | | Условие по умолчанию в блоке Switch. Обязательно должен быть **последним** элементом.
-If | **test** - проверка по XPAth выражению | Проверка условия, заданного XPAth выражением. Дочерние элементы выполняются, если уловие истинно.
-ForEach | **select** - XPAth выражение для выбора набора елементов | Выбор набора элементов, заданного XPAth выражением. 
+Element | Attributes                                                                                                                                                | Description
+------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------| --------
+Configuration |                                                                                                                                                           | Root configuration element
+Init |                                                                                                                                                           | Application initialization section
+Replace | **match** - regular expression for text replacement<br>**replace** - replacement string<br>**ignorecase**[**true**\|false] - case insensitive replacement | Global replacement of spoken text
+Event | **name** - event name or XPath expression                                                                                                                 | The event handling section of the game. All child commands are executed when this event occurs.
+Play | **name** - player name<br>**file** - audio file name<br>**volume**[0..100] - volume level<br>**async**[true\|**false**] - asynchronous playback           | Play audio file
+Stop | **name** - player name<br>**fade** - decay time in milliseconds                                                                                           | Stop the audio file player. If the **name** parameter is missing, all players are stopped.
+TextToSpeech | **voice** - voice acting name<br>**volume**[0..100] - volume level<br>**rate**[-10..10] - speed of pronunciation<br>                                      | Set text pronunciation settings for child elements or globally.
+Text | **select** - XPath expression to select spoken text                                                                                                       | Speak text from an event parameter or take it from the element's content.
+Pause | **value** - stop time in milliseconds                                                                                                               | Pause command execution for **value** milliseconds.
+Randomize |                                                                                                                                                           | Choose one of the child commands randomly.
+Block | **priority**[**1**..] - block selection priority, the higher the greater the probability                                                                          | Command block for the Randomize element.
+Switch | **select** - XPath expression to select an element                                                                                                          | Selecting a parameter for a selection condition in Case/Default child elements
+Case | **match\|imatch** - matches a regular expression<br>**equal\|iequal** - full match<br>**test** - test against an XPath expression             | Tests the condition of the parameter value specified by the Switch element. The **i** prefix on the attribute means that the comparison will be case-insensitive.
+Default |                                                                                                                                                           | Default condition in Switch block. Must be the **last** element.
+If | **test** - check by XPath expression                                                                                                                    | Checks a condition specified by an XPath expression. Child elements are executed if the condition is true.
+ForEach | **select** - XPath expression to select a set of elements                                                                                                  | Select a set of elements specified by an XPath expression.
 
 
 
-###### Некоторые пояснения:
+###### Some explanations:
 
-В отличии от предыдущей версии программы, которая использовала JSON непосредственно с log-файла, текущая версия преобразует JSON в XML. Это дает преимущество в разборе параметров события, дополнительных вычислений, прохода по структуре и т.п. Например преобразование строки Json события StartJump:
+Unlike the previous version of the application, which used JSON directly from the log file, the current version converts JSON to XML. This gives an advantage in parsing event parameters, additional calculations, traversing the structure, etc. For example: converting the JSON string of the StartJump event:
 ```json
-	{ 
-	"timestamp":"2021-09-28T02:12:34Z", 
-	"event":"StartJump", 
-	"JumpType":"Hyperspace", 
-	"StarSystem":"Didio", 
-	"SystemAddress":3240309573995, 
-	"StarClass":"G" 
-	}
+{
+  "timestamp":"2021-09-28T02:12:34Z",
+  "event":"StartJump",
+  "JumpType":"Hyperspace",
+  "StarSystem":"Didio",
+  "SystemAddress":3240309573995,
+  "StarClass":"G"
+}
 ```
-будет преобразован в XML вида:
+will be converted to XML of the form:
 ```xml
-	<root>
-	   <timestamp>2021-09-28T02:12:34Z</timestamp>
-	   <event>StartJump</event>
-	   <JumpType>Hyperspace</JumpType>
-	   <StarSystem>Didio</StarSystem>
-	   <SystemAddress>3240309573995</SystemAddress>
-	   <StarClass>G</StarClass>
-	</root>
+<root>
+    <timestamp>2021-09-28T02:12:34Z</timestamp>
+    <event>StartJump</event>
+    <JumpType>Hyperspace</JumpType>
+    <StarSystem>Didio</StarSystem>
+    <SystemAddress>3240309573995</SystemAddress>
+    <StarClass>G</StarClass>
+</root>
 ```
-Как можно заметить, текущий, для обработки команд, элемент это **"root** поэтому чтобы озвучить, например, название звездной системы, необходимо использовать выражение типа **"//StarSystem"**. В примерах указанных ниже, следует на это обратить внимание.
+As you can see, the current element for processing commands is **root**, so to voice, for example, the name of a star system, you need to use an expression like **"//StarSystem"**. In the examples below, you should pay attention to this.
 
-###### Примеры:
+###### Samples:
 
-Выполнить блок команд, при возникновении события *SupercruiseEntry* (вход суперкруиз):
+Execute a block of commands when the *SupercruiseEntry* event occurs:
 ```xml
-	<Event name="SupercruiseEntry">
-	...
-	</Event>
+<Event name="SupercruiseEntry">
+    ...
+</Event>
 ```
 
-Установить глобально голос "Anna" с самым быстрым произношением и половиной громкости. Сказать фразу. Переключить на голос "Irina" и среднюю скорость. Сказать фразу. И снова голосом "Anna" сказать фразу. Паузы между произношениями будут составлять 500 миллисекунд.
+Set globally the voice "Anna" with the fastest pronunciation and half the volume. Say the phrase. Switch to the voice "Irina" and medium speed. Say the phrase. And again with the voice "Anna" say the phrase. The pauses between pronunciations will be 500 milliseconds.
 ```xml
-	<TextToSpeech voice="Anna" volume="50" rate="10"/>
-	<Text>Привет люди! Говорит Анна.</Text>
-	<Pause value="500"/>
-	<TextToSpeech voice="Irina" rate="0">
-		<Text>Ирина вмешивается в процесс</Text>
-	</TextToSpeech>
-	<Pause value="500"/>
-	<Text>А теперь снова будет говорить Анна.</Text>
+<TextToSpeech voice="Anna" volume="50" rate="10"/>
+<Text>Hello people! This is Anna speaking.</Text>
+<Pause value="500"/>
+<TextToSpeech voice="Irina" rate="0">
+<Text>Irina intervenes in the process</Text>
+</TextToSpeech>
+<Pause value="500"/>
+<Text>And now Anna will speak again.</Text>
 ```
 
 
-Произнести случайным образом одну из 3х фраз. Вероятность произношения первой фразы - 20%, второй - 50%, третьей - 30%
+Randomly pronounce one of three phrases. The probability of pronouncing the first phrase is 20%, the second - 50%, the third - 30%:
 ```xml
-	<Randomize>
-		<Block priority="2">
-			<Text>Первая фраза</Text>
-		</Block>
-		<Block priority="5">
-			<Text>Вторая фраза</Text>
-		</Block>
-		<Block priority="3">
-			<Text>Третья фраза</Text>
-		</Block>
-	</Randomize>
+<Randomize>
+    <Block priority="2">
+        <Text>Первая фраза</Text>
+    </Block>
+    <Block priority="5">
+        <Text>Вторая фраза</Text>
+    </Block>
+    <Block priority="3">
+        <Text>Третья фраза</Text>
+    </Block>
+</Randomize>
 ```
 
-Проиграть звуковой файл на громкости 20%. После его завершения произнести фразу.
+Play the sound file at 20% volume. After it is finished, say the phrase.
 ```xml
-	<Play file="sound\music.mp3" volume="20"/>
-	<Text>Музыка кончилась</Text>
+<Play file="sound\music.mp3" volume="20"/>
+<Text>The music has ended</Text>
 ```
 
-Начать проигрывание звукового файла на громкости 50%. Через 10 секунд произнести фразу и в течении 5 секунд остановить проигрывание.
+Start playing the audio file at 50% volume. After 10 seconds, say the phrase and stop playing within 5 seconds.
 ```xml
-	<Play name="player1" file="sound\music.mp3" volume="50" async="true"/>
-	<Pause value="10000"/>
-	<Text>Сейчас музыка начнет заканчиваться</Text>
-	<Stop name="player1" fade="5000"/>
+<Play name="player1" file="sound\music.mp3" volume="50" async="true"/>
+<Pause value="10000"/>
+<Text>Now the music will start to end.</Text>
+<Stop name="player1" fade="5000"/>
 ```
 
-Проверить от кого пришло сообщение в игре и соответственно выбрать, значение какого параметра использовать для произношения сообщения.
+Check who the message came from in the game and accordingly choose the value of which parameter to use to pronounce the message.
 ```xml
-	<Switch select="/*/Channel">
-		<Case imatch="(player|wing)">
-			<Text select="../Message"/>
-		</Case>
-		<Default>
-			<Text select="../Message_Localised"/>
-		</Default>
-	</Switch>
+<Switch select="/*/Channel">
+    <Case imatch="(player|wing)">
+        <Text select="../Message"/>
+    </Case>
+    <Default>
+        <Text select="../Message_Localised"/>
+    </Default>
+</Switch>
 ```
 
-Секция инициализации. Глобально заменять "мама" на "папа". Заменять "Euryale" на "Эвриала".
+Initialization section. Globally replace "mom" with "dad". Replace "Euryale" with "Home system Euryale".
 ```xml
   <Init>
-    <Replace match="мама" replace="папа"/>
-    <Replace match="Euryale" replace="Эвриала"/>
+    <Replace match="mom" replace="dad"/>
+    <Replace match="Euryale" replace="Home system Euryale"/>
     ...
-  </Init>
+</Init>
 ```
 
-Проверить обитаема ли система и проговорить голосом численность населения и количество фракций в системе в собылтии FSDJump.
+Check if the system is inhabited and speak the population and number of factions in the system in the FSDJump event.
 ```xml
-  <Event name="FSDJump">
+<Event name="FSDJump">
     <Switch select="//Population">
-      <Case iequal="0">
-        <Text>Система необитаемая</Text>
-      </Case>
-      <Default>
-        <Text>Население системы: </Text>
-        <Text select="./text()"/>
-        <Text>человек</Text>
-        <Pause value="500"/>
-        <Text>Всего фракций: </Text>
-        <Text select="count(../Factions)"/>
-        <Pause value="500"/>
-        <Text>Контроллирующая фракция: </Text>
-        <Text select="../SystemFaction"/>
-      </Default>
+        <Case iequal="0">
+            <Text>Uninhabited system</Text>
+        </Case>
+        <Default>
+            <Text>System population:</Text>
+            <Text select="./text()"/>
+            <Text>peoples</Text>
+            <Pause value="500"/>
+            <Text>Total fractions: </Text>
+            <Text select="count(../Factions)"/>
+            <Pause value="500"/>
+            <Text>Controlling faction:</Text>
+            <Text select="../SystemFaction"/>
+        </Default>
     </Switch>
-  </Event>
+</Event>
 ```
 
-!!!Важно. В программе присутствует файл настроек **%APPDATA%\\EliteVoice\\log4net\\log4net.config**, в котором настраивается логирование вывода преобразований JSON->XML. Если вам не нужно дебажить вывод XML просто удалите этот файл или, что лучше, замените **DEBUG** на **NONE**.
+!!!Important. The program contains a settings file **%APPDATA%\\EliteVoice\\log4net\\log4net.config**, which configures logging of the output of JSON->XML transformations. If you do not need to debug the XML output, simply delete this file or, better yet, replace **DEBUG** with **NONE**.
 
-## Замечания:
+## Notes:
 
-1.	Чтобы понять, что RHVoice с вашими голосами подключился, можно посмотреть в дебаг выводе, какие голоса подключены в системе. У меня лично такие:
+1.	To understand that RHVoice with your voices has connected, you can look at the debug output to see which voices are connected in the system. Personally, I have these:
 
 	**Found voices:**<br>
 	Arina<br>
@@ -187,6 +187,6 @@ ForEach | **select** - XPAth выражение для выбора набора
 	Victoria<br>
 	Yuriy<br>
 
-2.  В дебаг выводе можно увидеть, какие события обрабатываются, а какие нет. И соответственно написать/изменить их обработчики.
+2.  In the debug output you can see which events are processed and which are not. And accordingly write/change their handlers.
 
-3.	Конечно в программе присутствуют ошибки. Об ошибках сообщайте мне в [discord](https://discord.gg/c5sm4WS) (ник haps) или на [github](https://github.com/hapsys/elite-voice/issues)
+3.	Of course there are errors in the program. Report errors to me on [github](https://github.com/hapsys/elite-voice/issues)
